@@ -1892,6 +1892,7 @@ sub setup_api_v1_configurator_routes {
     $self->setup_api_v1_config_interfaces_routes($root);
     $self->setup_api_v1_config_bases_routes($root);
     $self->setup_api_v1_config_fingerbank_settings_routes($root);
+    $self->setup_api_v1_services_routes($root);
     return;
 }
 
