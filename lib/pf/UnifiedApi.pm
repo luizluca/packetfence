@@ -157,6 +157,7 @@ sub setup_api_v1_routes {
     $self->setup_api_v1_queues_routes($api_v1_route);
     $self->setup_api_v1_translations_routes($api_v1_route);
     $self->setup_api_v1_preferences_routes($api_v1_route);
+    $self->setup_api_v1_system_services_routes($api_v1_route);
     $self->setup_api_v1_system_summary_route($api_v1_route);
     $self->setup_api_v1_emails_route($api_v1_route);
 }
@@ -1719,6 +1720,21 @@ sub setup_api_v1_cluster_routes {
     my $resource_route = $root->any("/cluster")->to(controller => "Cluster")->name("api.v1.Cluster");;
     $resource_route->any(['GET'] => "/servers")->to(action => "servers")->name("api.v1.Cluster.servers");
     return (undef, $resource_route);
+}
+
+=head2 setup_api_v1_system_services_routes
+
+setup_api_v1_system_services_routes
+
+=cut
+
+sub setup_api_v1_system_services_routes {
+    my ($self, $root) = @_;
+    my $resource_route = $root->under("/system_service/#system_service_id")->to("SystemServices#resource")->name("api.v1.Config.SystemServices.resource");
+    $self->add_subroutes($resource_route, "SystemServices", "GET", qw(status));
+    $self->add_subroutes($resource_route, "SystemServices", "POST", qw(start stop restart enable disable));
+    
+    return ($resource_route);
 }
 
 =head2 setup_api_v1_services_routes
